@@ -41,6 +41,17 @@ let config: AIConfig = {
   temperature: 0.7,
 };
 
+// Prefer environment variable when provided (useful for local development via .env)
+try {
+  // Metro/Expo may provide process.env during dev; also some setups load dotenv.
+  const envKey = process?.env?.OPENAI_API_KEY;
+  if (envKey) {
+    config.apiKey = envKey;
+  }
+} catch (e) {
+  // ignore
+}
+
 export function configureAI(newConfig: Partial<AIConfig>): void {
   config = { ...config, ...newConfig };
 }
@@ -48,13 +59,75 @@ export function configureAI(newConfig: Partial<AIConfig>): void {
 export function setAPIKey(apiKey: string): void {
   config.apiKey = apiKey;
   StorageService.saveAPIKey(apiKey);
+  // persist to AsyncStorage so it survives Expo reloads
+  try {
+    // fire-and-forget using dynamic require to avoid bundler resolution errors
+    try {
+      // use eval to prevent static analysis from Metro
+      // eslint-disable-next-line no-eval
+      const _req: any = eval('require');
+      const AsyncStorage = _req('@react-native-async-storage/async-storage');
+      const setter = AsyncStorage?.setItem || AsyncStorage?.default?.setItem;
+      if (setter) setter('openai_api_key', apiKey);
+    } catch (err) {
+      // ignore if AsyncStorage isn't installed in this environment
+    }
+  } catch (e) {
+    // ignore
+  }
 }
 
 export function getAPIKey(): string | null {
   if (!config.apiKey) {
+    // Try the storage service first (synchronous when available)
     config.apiKey = StorageService.getAPIKey();
   }
   return config.apiKey;
+}
+
+async function ensureAPIKeyLoaded(): Promise<void> {
+  if (config.apiKey) return;
+
+  // 1) env at runtime
+  try {
+    const envKey = process?.env?.OPENAI_API_KEY;
+    if (envKey) {
+      config.apiKey = envKey;
+      return;
+    }
+  } catch (e) {
+    // ignore
+  }
+
+  // 2) Storage service (may be synchronous fallback)
+  try {
+    const stored = StorageService.getAPIKey();
+    if (stored) {
+      config.apiKey = stored;
+      return;
+    }
+  } catch (e) {
+    // ignore
+  }
+
+  // 3) AsyncStorage (persistent for Expo)
+  try {
+    try {
+      // use dynamic require to avoid Metro trying to resolve the native module at bundle time
+      // eslint-disable-next-line no-eval
+      const _req: any = eval('require');
+      const AsyncStorage = _req('@react-native-async-storage/async-storage');
+      const getter = AsyncStorage?.getItem || AsyncStorage?.default?.getItem;
+      if (getter) {
+        const asyncKey = await getter('openai_api_key');
+        if (asyncKey) config.apiKey = asyncKey;
+      }
+    } catch (err) {
+      // ignore if AsyncStorage isn't available
+    }
+  } catch (e) {
+    // ignore
+  }
 }
 
 // ============================================
@@ -128,6 +201,9 @@ export function calculateDifficultyAdjustment(
 // ============================================
 
 async function callLLM(userPrompt: string): Promise<string> {
+  // Make sure we loaded an API key from env, storage service or AsyncStorage
+  await ensureAPIKeyLoaded();
+
   if (!config.apiKey) {
     throw new Error('API key not configured');
   }

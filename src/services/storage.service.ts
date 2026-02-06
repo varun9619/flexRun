@@ -1,4 +1,44 @@
-import { MMKV } from 'react-native-mmkv';
+// Try to use native MMKV when available. In Expo Go (or when the native module
+// isn't linked) this will throw — fall back to a lightweight in-memory
+// implementation that provides the minimal API the app uses. This allows the
+// app to run without rebuilding a native binary.
+let storage: any;
+
+try {
+  // Use require so TypeScript doesn't error when the native module is absent
+  // during static analysis in managed Expo.
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const { MMKV } = require('react-native-mmkv');
+  storage = new MMKV();
+} catch (e) {
+  // Fallback implementation: simple in-memory store with the same methods
+  // used across the codebase: getString, getBoolean, set, delete, clearAll.
+  console.warn('react-native-mmkv native module not found — using in-memory fallback storage.');
+
+  const store = new Map<string, string>();
+
+  storage = {
+    getString(key: string) {
+      return store.has(key) ? store.get(key) as string : undefined;
+    },
+    getBoolean(key: string) {
+      const v = store.get(key);
+      if (v === undefined) return undefined;
+      // stored booleans are saved as 'true'|'false'
+      return v === 'true';
+    },
+    set(key: string, value: any) {
+      // MMKV accepts strings and booleans; persist everything as strings
+      store.set(key, String(value));
+    },
+    delete(key: string) {
+      store.delete(key);
+    },
+    clearAll() {
+      store.clear();
+    },
+  };
+}
 import {
   RunnerProfile,
   RunSession,
@@ -7,8 +47,7 @@ import {
   ProgressionState,
 } from '@/types';
 
-// Initialize MMKV storage instance
-const storage = new MMKV();
+// `storage` is either a real MMKV instance or the in-memory fallback above.
 
 // ============================================
 // KEYS
