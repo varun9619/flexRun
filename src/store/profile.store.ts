@@ -9,6 +9,7 @@ import {
 } from '@/types';
 import { DEFAULT_PROFILE } from '@/types/constants';
 import * as StorageService from '@/services/storage.service';
+import { setAPIKey as setAIServiceKey } from '@/services/ai.service';
 
 // ============================================
 // STATE INTERFACE
@@ -47,6 +48,11 @@ export const useProfileStore = create<ProfileState>((set, get) => ({
     const program = StorageService.getProgram();
     const apiKey = StorageService.getAPIKey();
     const isOnboardingComplete = StorageService.isOnboardingComplete();
+
+    // Initialize AI service with stored API key
+    if (apiKey) {
+      setAIServiceKey(apiKey);
+    }
 
     set({
       profile,

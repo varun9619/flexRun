@@ -149,8 +149,16 @@ export function AIEntryScreen({ navigation }: AIEntryScreenProps) {
       >
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.appName}>FlexRun</Text>
-          <Text style={styles.subtitle}>AI Coach</Text>
+          <View>
+            <Text style={styles.appName}>FlexRun</Text>
+            <Text style={styles.subtitle}>AI Coach</Text>
+          </View>
+          <TouchableOpacity 
+            style={styles.settingsButton}
+            onPress={() => navigation.navigate('Settings')}
+          >
+            <Text style={styles.settingsIcon}>⚙️</Text>
+          </TouchableOpacity>
         </View>
 
         {/* Messages */}
@@ -227,6 +235,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     padding: 20,
     borderBottomWidth: 1,
     borderBottomColor: '#2a2a3e',
@@ -240,6 +251,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#888',
     marginTop: 4,
+  },
+  settingsButton: {
+    padding: 8,
+  },
+  settingsIcon: {
+    fontSize: 24,
   },
   messagesContainer: {
     flex: 1,

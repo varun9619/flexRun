@@ -41,10 +41,11 @@ let config: AIConfig = {
   temperature: 0.7,
 };
 
-// Prefer environment variable when provided (useful for local development via .env)
+// Load API key from Expo environment variable at module init
+// This runs once when the module is imported
 try {
-  // Metro/Expo may provide process.env during dev; also some setups load dotenv.
-  const envKey = process?.env?.OPENAI_API_KEY;
+  // @ts-ignore - Expo provides this at runtime
+  const envKey = process.env.EXPO_PUBLIC_OPENAI_API_KEY;
   if (envKey) {
     config.apiKey = envKey;
   }
