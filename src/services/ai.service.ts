@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import Constants from 'expo-constants';
 import {
   RunnerProfile,
   RunnerProgram,
@@ -41,16 +42,15 @@ let config: AIConfig = {
   temperature: 0.7,
 };
 
-// Load API key from Expo environment variable at module init
-// This runs once when the module is imported
+// Load API key from environment variable using Expo Constants
 try {
-  // @ts-ignore - Expo provides this at runtime
-  const envKey = process.env.EXPO_PUBLIC_OPENAI_API_KEY;
+  const envKey = Constants.expoConfig?.extra?.OPENAI_API_KEY;
   if (envKey) {
     config.apiKey = envKey;
+    console.log('API key loaded from environment');
   }
 } catch (e) {
-  // ignore
+  console.log('No environment API key found');
 }
 
 export function configureAI(newConfig: Partial<AIConfig>): void {
