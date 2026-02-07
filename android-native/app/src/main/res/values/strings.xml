@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FlexRun</string>
+    
+    <!-- Onboarding -->
+    <string name="onboarding_welcome">Welcome to FlexRun</string>
+    <string name="onboarding_tagline">Your AI Running Coach</string>
+    <string name="onboarding_description">Just tell me what you want to do today, and I\'ll guide you.</string>
+    
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_history">History</string>
+    <string name="nav_profile">Profile</string>
+    
+    <!-- Common -->
+    <string name="start">Start</string>
+    <string name="pause">Pause</string>
+    <string name="resume">Resume</string>
+    <string name="stop">Stop</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="done">Done</string>
+    <string name="next">Next</string>
+    <string name="skip">Skip</string>
+    
+    <!-- Run Types -->
+    <string name="run_type_easy">Easy Run</string>
+    <string name="run_type_tempo">Tempo</string>
+    <string name="run_type_long">Long Run</string>
+    <string name="run_type_interval">Intervals</string>
+    <string name="run_type_recovery">Recovery</string>
+    <string name="run_type_race_prep">Race Prep</string>
+    <string name="run_type_free">Just Track</string>
+    
+    <!-- Metrics -->
+    <string name="distance">Distance</string>
+    <string name="duration">Duration</string>
+    <string name="pace">Pace</string>
+    <string name="avg_pace">Avg Pace</string>
+    <string name="curr_pace">Curr Pace</string>
+    <string name="calories">Calories</string>
+    
+    <!-- Permissions -->
+    <string name="location_permission_rationale">FlexRun needs location access to track your runs</string>
+    <string name="background_location_rationale">FlexRun needs background location access to track runs when the screen is off</string>
+</resources>

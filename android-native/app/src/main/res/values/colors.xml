@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Launcher icon background -->
+    <color name="ic_launcher_background">#FF6B35</color>
+    
+    <!-- Primary Colors -->
+    <color name="primary">#FF6B35</color>
+    <color name="primary_dark">#E55A25</color>
+    <color name="primary_light">#FF8B5E</color>
+    
+    <!-- Background Colors -->
+    <color name="background_light">#FAFAFA</color>
+    <color name="background_dark">#121212</color>
+    
+    <!-- Surface Colors -->
+    <color name="surface_light">#FFFFFF</color>
+    <color name="surface_dark">#1E1E1E</color>
+    
+    <!-- Text Colors -->
+    <color name="text_primary_light">#1A1A1A</color>
+    <color name="text_primary_dark">#E5E5E5</color>
+    <color name="text_secondary_light">#666666</color>
+    <color name="text_secondary_dark">#A0A0A0</color>
+    
+    <!-- Semantic Colors -->
+    <color name="success">#34C759</color>
+    <color name="warning">#FF9500</color>
+    <color name="error">#FF3B30</color>
+    <color name="info">#007AFF</color>
+    
+    <!-- White and Black -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+</resources>

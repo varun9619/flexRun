@@ -1,0 +1,41 @@
+*.iml
+.gradle
+/local.properties
+/.idea/
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+*.apk
+*.ap_
+*.dex
+*.class
+bin/
+gen/
+out/
+.navigation/
+captures/
+output.json
+*.hprof
+.cxx/
+*.jks
+
+# Gradle files
+.gradle/
+build/
+
+# Local configuration file (contains API keys)
+local.properties
+
+# Android Studio files
+.idea/
+*.iml
+*.ipr
+*.iws
+.DS_Store
+
+# Gradle binary (too large for GitHub)
+*.zip
+gradle-*.zip

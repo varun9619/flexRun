@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Base.Theme.FlexRun" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Placeholder theme, actual theming done in Compose -->
+    </style>
+
+    <style name="Theme.FlexRun" parent="Base.Theme.FlexRun" />
+</resources>
